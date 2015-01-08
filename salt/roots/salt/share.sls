@@ -6,3 +6,5 @@ utc_timezone:
 include:
     - redis
     - nodejs
+    - git
+    - themis
