@@ -1,4 +1,4 @@
-/var/themis/quals-core:
+/var/themis/quals:
     file.directory:
         - user: vagrant
         - group: vagrant
@@ -7,41 +7,19 @@
 
 https://github.com/aspyatkin/themis-quals-core.git:
     git.latest:
-        - target: /var/themis/quals-core
+        - target: /var/themis/quals/core
         - user: vagrant
         - require:
             - pkg: git
-            - file: /var/themis/quals-core
-
-/var/themis/quals-website:
-    file.directory:
-        - user: vagrant
-        - group: vagrant
-        - mode: 755
-        - makedirs: True
+            - file: /var/themis/quals
 
 https://github.com/aspyatkin/themis-quals-website.git:
     git.latest:
-        - target: /var/themis/quals-website
+        - target: /var/themis/quals/website
         - user: vagrant
         - require:
             - pkg: git
-            - file: /var/themis/quals-website
-
-/var/themis/quals-admin:
-    file.directory:
-        - user: vagrant
-        - group: vagrant
-        - mode: 755
-        - makedirs: True
-
-https://github.com/aspyatkin/themis-quals-admin.git:
-    git.latest:
-        - target: /var/themis/quals-admin
-        - user: vagrant
-        - require:
-            - pkg: git
-            - file: /var/themis/quals-admin
+            - file: /var/themis/quals
 
 coffee-script@1.8.0:
     npm.installed:

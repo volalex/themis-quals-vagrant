@@ -8,3 +8,4 @@ include:
     - nodejs
     - git
     - themis
+    - nginx
