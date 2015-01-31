@@ -14,6 +14,7 @@ nginx:
                 listen 3001;
                 location / {
                     root /var/themis/quals/website/public;
+                    rewrite ^(.*)$(?<!\\.js)(?<!\\.css)(?<!\\.woff)(?<!\\.ttf)(?<!\\.svg)(?<!\\.otf)(?<!\\.eot)(?<!\\.png) /index.html break;
                 }
             }
         - require:
