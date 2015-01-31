@@ -1,1 +1,3 @@
 .vagrant
+opts.yml
+salt/roots/pillar/share.sls

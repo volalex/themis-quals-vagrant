@@ -5,16 +5,26 @@
         - mode: 755
         - makedirs: True
 
-https://github.com/aspyatkin/themis-quals-core.git:
+git_themis_quals_core:
     git.latest:
+        {% if salt['pillar.get']('git:ssh:github.com', None) %}
+        - name: git@github.com:aspyatkin/themis-quals-core.git
+        {% else %}
+        - name: https://github.com/aspyatkin/themis-quals-core.git
+        {% endif %}
         - target: /var/themis/quals/core
         - user: vagrant
         - require:
             - pkg: git
             - file: /var/themis/quals
 
-https://github.com/aspyatkin/themis-quals-website.git:
+git_themis_quals_website:
     git.latest:
+        {% if salt['pillar.get']('git:ssh:github.com', None) %}
+        - name: git@github.com:aspyatkin/themis-quals-website.git
+        {% else %}
+        - name: https://github.com/aspyatkin/themis-quals-website.git
+        {% endif %}
         - target: /var/themis/quals/website
         - user: vagrant
         - require:
