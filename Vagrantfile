@@ -28,8 +28,12 @@ Vagrant.configure(2) do |config|
         v.memory = 1536
     end
 
-    config.vm.network :forwarded_port, guest: 3000, host: 3000
-    config.vm.network :forwarded_port, guest: 3001, host: 3001
+    if opts.has_key? 'network'
+        opts['network'].each do |key, value|
+            options = Hash[value.map { |(k,v)| [k.to_sym, v] }]
+            config.vm.network key, **options
+        end
+    end
 
     config.vm.synced_folder 'salt/roots/', '/srv/'
     config.vm.provision :salt do |salt|

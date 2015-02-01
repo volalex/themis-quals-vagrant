@@ -11,11 +11,34 @@ nginx:
         - mode: 644
         - contents: |
             server {
-                listen 3001;
+                server_name '2015.volgactf-dev.org';
+                listen 80;
                 location / {
-                    root /var/themis/quals/website/public;
-                    rewrite ^(.*)$(?<!\\.js)(?<!\\.css)(?<!\\.woff)(?<!\\.ttf)(?<!\\.svg)(?<!\\.otf)(?<!\\.eot)(?<!\\.png) /index.html break;
+                    root /var/themis/quals/website/public/html;
+                    rewrite ^(.*)$ /index.html break;
+                }
+            }
+
+            server {
+                server_name '2015-js.volgactf-dev.org';
+                listen 80;
+                location / {
+                    root /var/themis/quals/website/public/js;
+                }
+            }
+
+            server {
+                server_name '2015-css.volgactf-dev.org';
+                listen 80;
+                location / {
+                    root /var/themis/quals/website/public/css;
                 }
             }
         - require:
             - pkg: nginx
+
+/etc/nginx/sites-enabled/default:
+    file.absent
+
+/etc/nginx/sites-available/default:
+    file.absent
