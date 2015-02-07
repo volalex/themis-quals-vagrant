@@ -20,18 +20,15 @@ nginx:
             }
 
             server {
-                server_name '2015-js.volgactf-dev.org';
+                server_name 'cdn.2015.volgactf-dev.org';
                 listen 80;
-                location / {
-                    root /var/themis/quals/website/public/js;
-                }
-            }
+                root /var/themis/quals/website/public/cdn;
 
-            server {
-                server_name '2015-css.volgactf-dev.org';
-                listen 80;
-                location / {
-                    root /var/themis/quals/website/public/css;
+                location ~* \.(?:ttf|ttc|otf|eot|woff|woff2)$ {
+                    # expires 1M;
+                    # access_log off;
+                    # add_header Cache-Control "public";
+                    add_header "Access-Control-Allow-Origin" "http://2015.volgactf-dev.org";
                 }
             }
         - require:
