@@ -1,2 +1,5 @@
 redis-server:
-    pkg.installed
+    pkg:
+      - installed
+    service:
+      - running

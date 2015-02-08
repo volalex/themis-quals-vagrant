@@ -18,6 +18,11 @@ git_themis_quals_core:
             - pkg: git
             - file: /var/themis/quals
 
+/var/themis/quals/core:
+    npm.bootstrap:
+        - require:
+            - git: git_themis_quals_core
+
 git_themis_quals_website:
     git.latest:
         {% if salt['pillar.get']('git:ssh:github.com', None) %}
@@ -30,6 +35,11 @@ git_themis_quals_website:
         - require:
             - pkg: git
             - file: /var/themis/quals
+
+/var/themis/quals/website:
+    npm.bootstrap:
+        - require:
+            - git: git_themis_quals_website
 
 coffee-script@1.8.0:
     npm.installed:
