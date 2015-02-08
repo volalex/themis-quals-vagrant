@@ -9,3 +9,4 @@ include:
     - git
     - themis
     - nginx
+    - mongodb
