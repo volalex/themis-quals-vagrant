@@ -28,7 +28,7 @@ nginx:
                     # expires 1M;
                     # access_log off;
                     # add_header Cache-Control "public";
-                    add_header "Access-Control-Allow-Origin" "http://2015.volgactf-dev.org";
+                    # add_header "Access-Control-Allow-Origin" "http://2015.volgactf-dev.org";
                 }
             }
 
