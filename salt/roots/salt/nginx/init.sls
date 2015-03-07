@@ -1,8 +1,6 @@
 nginx:
-    pkg:
-        - installed
-    service:
-        - running
+    pkg.installed: []
+    service.running: []
 
 /etc/nginx/conf.d/themis-quals-website.conf:
     file.managed:

@@ -1,5 +1,3 @@
 mongodb:
-    pkg:
-        - installed
-    service:
-        - running
+    pkg.installed: []
+    service.running: []
