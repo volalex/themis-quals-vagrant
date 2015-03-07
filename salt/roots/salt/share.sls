@@ -10,3 +10,4 @@ include:
     - themis
     - nginx
     - mongodb
+    - supervisor

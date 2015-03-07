@@ -55,3 +55,27 @@ gulp:
     npm.installed:
         - require:
             - pkg: npm
+
+/var/themis/quals/supervisor:
+    file.directory:
+        - user: vagrant
+        - group: vagrant
+        - mode: 755
+        - makedirs: True
+        - require:
+            - file: /var/themis/quals
+
+/var/themis/quals/supervisor/core.ini:
+    file.managed:
+        - user: vagrant
+        - group: vagrant
+        - mode: 644
+        - source: salt://templates/core.ini
+        - template: jinja
+        - defaults:
+            processes: {{ salt['pillar.get']('themis:core:processes', 1) }}
+            secret: "{{ pillar['themis']['core']['secret'] }}"
+            origin: "http://{{ pillar['themis']['domain'] }}"
+        - require:
+            - file: /var/themis/quals/supervisor
+            - npm: /var/themis/quals/core

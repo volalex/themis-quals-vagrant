@@ -1,3 +1,6 @@
 redis-server:
     pkg.installed: []
-    service.running: []
+    service.running:
+        - enable: True
+        - require:
+            - pkg: redis-server

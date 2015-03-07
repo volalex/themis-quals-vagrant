@@ -1,3 +1,6 @@
 mongodb:
     pkg.installed: []
-    service.running: []
+    service.running:
+        - enable: True
+        - require:
+            - pkg: mongodb
