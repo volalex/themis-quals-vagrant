@@ -13,6 +13,9 @@ git_themis_quals_core:
         - name: https://github.com/aspyatkin/themis-quals-core.git
         {% endif %}
         - target: /var/themis/quals/core
+        {% if salt['pillar.get']('git:repositories:themis-quals-core', None) %}
+        - revision: "{{ pillar['git']['repositories']['themis-quals-core'] }}"
+        {% endif %}
         - user: vagrant
         - require:
             - pkg: git
@@ -31,6 +34,9 @@ git_themis_quals_website:
         - name: https://github.com/aspyatkin/themis-quals-website.git
         {% endif %}
         - target: /var/themis/quals/website
+        {% if salt['pillar.get']('git:repositories:themis-quals-website', None) %}
+        - revision: "{{ pillar['git']['repositories']['themis-quals-website'] }}"
+        {% endif %}
         - user: vagrant
         - require:
             - pkg: git
@@ -51,10 +57,21 @@ bower:
         - require:
             - pkg: npm
 
+/var/themis/quals/website/opts.yml:
+    file.managed:
+        - user: vagrant
+        - group: vagrant
+        - mode: 644
+        - contents: |
+            domain: "{{ pillar['themis']['domain'] }}"
+        - require:
+            - git: git_themis_quals_website
+
 gulp:
     npm.installed:
         - require:
             - pkg: npm
+            - file: /var/themis/quals/website/opts.yml
 
 /var/themis/quals/supervisor:
     file.directory:
@@ -75,7 +92,7 @@ gulp:
         - defaults:
             processes: {{ salt['pillar.get']('themis:core:processes', 1) }}
             secret: "{{ pillar['themis']['core']['secret'] }}"
-            origin: "http://{{ pillar['themis']['domain'] }}"
+            domain: "{{ pillar['themis']['domain'] }}"
         - require:
             - file: /var/themis/quals/supervisor
             - npm: /var/themis/quals/core
