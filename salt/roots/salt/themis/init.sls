@@ -21,10 +21,14 @@ git_themis_quals_core:
             - pkg: git
             - file: /var/themis/quals
 
+graphicsmagick:
+    pkg.installed
+
 /var/themis/quals/core:
     npm.bootstrap:
         - require:
             - git: git_themis_quals_core
+            - pkg: graphicsmagick
 
 git_themis_quals_website:
     git.latest:
