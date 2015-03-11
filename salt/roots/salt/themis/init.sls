@@ -97,6 +97,7 @@ gulp:
             processes: {{ salt['pillar.get']('themis:core:processes', 1) }}
             secret: "{{ pillar['themis']['core']['secret'] }}"
             domain: "{{ pillar['themis']['domain'] }}"
+            mongodb_uri: "mongodb://localhost/themis"
         - require:
             - file: /var/themis/quals/supervisor
             - npm: /var/themis/quals/core
