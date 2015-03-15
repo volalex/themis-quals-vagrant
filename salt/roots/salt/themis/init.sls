@@ -99,6 +99,7 @@ gulp:
             secret: "{{ pillar['themis']['core']['secret'] }}"
             domain: "{{ pillar['themis']['domain'] }}"
             mongodb_uri: "mongodb://localhost/themis"
+            logos_dir: "/var/themis/quals/logos"
         - require:
             - git: git_themis_quals_core
 
@@ -114,6 +115,31 @@ gulp:
             secret: "{{ pillar['themis']['core']['secret'] }}"
             domain: "{{ pillar['themis']['domain'] }}"
             mongodb_uri: "mongodb://localhost/themis"
+            logos_dir: "/var/themis/quals/logos"
+        - require:
+            - file: /var/themis/quals/supervisor
+            - npm: /var/themis/quals/core
+
+/var/themis/quals/logos:
+    file.directory:
+        - user: vagrant
+        - group: vagrant
+        - mode: 755
+        - makedirs: True
+        - require:
+            - file: /var/themis/quals
+
+/var/themis/quals/supervisor/queue.ini:
+    file.managed:
+        - user: vagrant
+        - group: vagrant
+        - mode: 644
+        - source: salt://templates/queue.ini
+        - template: jinja
+        - defaults:
+            processes: {{ salt['pillar.get']('themis:queue:processes', 1) }}
+            mongodb_uri: "mongodb://localhost/themis"
+            logos_dir: "/var/themis/quals/logos"
         - require:
             - file: /var/themis/quals/supervisor
             - npm: /var/themis/quals/core
