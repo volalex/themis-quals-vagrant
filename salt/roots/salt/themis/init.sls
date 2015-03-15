@@ -68,6 +68,8 @@ bower:
         - mode: 644
         - contents: |
             domain: "{{ pillar['themis']['domain'] }}"
+            event:
+                title: "{{ pillar['themis']['event']['title'] }}"
         - require:
             - git: git_themis_quals_website
 
