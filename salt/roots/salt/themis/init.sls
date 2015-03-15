@@ -86,6 +86,20 @@ gulp:
         - require:
             - file: /var/themis/quals
 
+/var/themis/quals/core/.env:
+    file.managed:
+        - user: vagrant
+        - group: vagrant
+        - mode: 644
+        - source: salt://templates/dotenv
+        - template: jinja
+        - defaults:
+            secret: "{{ pillar['themis']['core']['secret'] }}"
+            domain: "{{ pillar['themis']['domain'] }}"
+            mongodb_uri: "mongodb://localhost/themis"
+        - require:
+            - git: git_themis_quals_core
+
 /var/themis/quals/supervisor/core.ini:
     file.managed:
         - user: vagrant
