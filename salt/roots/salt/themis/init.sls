@@ -140,6 +140,9 @@ gulp:
             processes: {{ salt['pillar.get']('themis:queue:processes', 1) }}
             mongodb_uri: "mongodb://localhost/themis"
             logos_dir: "/var/themis/quals/logos"
+            domain: "{{ pillar['themis']['domain'] }}"
+            email_sender: "{{ pillar['themis']['email_sender'] }}"
+            mandrill_api_key: "{{ pillar['themis']['mandrill_api_key'] }}"
         - require:
             - file: /var/themis/quals/supervisor
             - npm: /var/themis/quals/core
