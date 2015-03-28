@@ -1,7 +1,7 @@
 /var/themis/quals:
     file.directory:
-        - user: vagrant
-        - group: vagrant
+        - user: "{{ pillar['system']['user'] }}"
+        - group: "{{ pillar['system']['group'] }}"
         - mode: 755
         - makedirs: True
 
@@ -16,7 +16,7 @@ git_themis_quals_core:
         {% if salt['pillar.get']('git:repositories:themis-quals-core', None) %}
         - revision: "{{ pillar['git']['repositories']['themis-quals-core'] }}"
         {% endif %}
-        - user: vagrant
+        - user: "{{ pillar['system']['user'] }}"
         - require:
             - pkg: git
             - file: /var/themis/quals
@@ -41,7 +41,7 @@ git_themis_quals_website:
         {% if salt['pillar.get']('git:repositories:themis-quals-website', None) %}
         - revision: "{{ pillar['git']['repositories']['themis-quals-website'] }}"
         {% endif %}
-        - user: vagrant
+        - user: "{{ pillar['system']['user'] }}"
         - require:
             - pkg: git
             - file: /var/themis/quals
@@ -63,8 +63,8 @@ bower:
 
 /var/themis/quals/website/opts.yml:
     file.managed:
-        - user: vagrant
-        - group: vagrant
+        - user: "{{ pillar['system']['user'] }}"
+        - group: "{{ pillar['system']['group'] }}"
         - mode: 644
         - contents: |
             domain: "{{ pillar['themis']['domain'] }}"
@@ -81,8 +81,8 @@ gulp:
 
 /var/themis/quals/supervisor:
     file.directory:
-        - user: vagrant
-        - group: vagrant
+        - user: "{{ pillar['system']['user'] }}"
+        - group: "{{ pillar['system']['group'] }}"
         - mode: 755
         - makedirs: True
         - require:
@@ -90,8 +90,8 @@ gulp:
 
 /var/themis/quals/core/.env:
     file.managed:
-        - user: vagrant
-        - group: vagrant
+        - user: "{{ pillar['system']['user'] }}"
+        - group: "{{ pillar['system']['group'] }}"
         - mode: 644
         - source: salt://templates/dotenv
         - template: jinja
@@ -105,12 +105,13 @@ gulp:
 
 /var/themis/quals/supervisor/core.ini:
     file.managed:
-        - user: vagrant
-        - group: vagrant
+        - user: "{{ pillar['system']['user'] }}"
+        - group: "{{ pillar['system']['group'] }}"
         - mode: 644
         - source: salt://templates/core.ini
         - template: jinja
         - defaults:
+            user: "{{ pillar['system']['user'] }}"
             processes: {{ salt['pillar.get']('themis:core:processes', 1) }}
             secret: "{{ pillar['themis']['core']['secret'] }}"
             domain: "{{ pillar['themis']['domain'] }}"
@@ -122,8 +123,8 @@ gulp:
 
 /var/themis/quals/logos:
     file.directory:
-        - user: vagrant
-        - group: vagrant
+        - user: "{{ pillar['system']['user'] }}"
+        - group: "{{ pillar['system']['group'] }}"
         - mode: 755
         - makedirs: True
         - require:
@@ -131,12 +132,13 @@ gulp:
 
 /var/themis/quals/supervisor/queue.ini:
     file.managed:
-        - user: vagrant
-        - group: vagrant
+        - user: "{{ pillar['system']['user'] }}"
+        - group: "{{ pillar['system']['group'] }}"
         - mode: 644
         - source: salt://templates/queue.ini
         - template: jinja
         - defaults:
+            user: "{{ pillar['system']['user'] }}"
             processes: {{ salt['pillar.get']('themis:queue:processes', 1) }}
             mongodb_uri: "mongodb://localhost/themis"
             logos_dir: "/var/themis/quals/logos"

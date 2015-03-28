@@ -5,7 +5,7 @@ git:
 git_config_{{ key }}:
     cmd.run:
         - name: 'git config --global {{ key }} "{{ value }}"'
-        - user: vagrant
+        - user: "{{ pillar['system']['user'] }}"
         - require:
             - pkg: git
 {% endfor %}
@@ -13,9 +13,9 @@ git_config_{{ key }}:
 {% for key, value in salt['pillar.get']('git:ssh', {}).iteritems() %}
 git_id_rsa_{{ key }}:
     file.managed:
-        - name: /home/vagrant/.ssh/id_rsa_{{ key }}
+        - name: "/home/{{ pillar['system']['user'] }}/.ssh/id_rsa_{{ key }}"
         - contents_pillar: 'git:ssh:{{ key }}:private_key'
-        - user: vagrant
+        - user: "{{ pillar['system']['user'] }}"
         - mode: 600
         - require:
             - pkg: git
@@ -23,23 +23,23 @@ git_id_rsa_{{ key }}:
 git_server_fingerprint_{{ key }}:
     ssh_known_hosts.present:
         - name: {{ key }}
-        - user: vagrant
+        - user: "{{ pillar['system']['user'] }}"
         - fingerprint: {{ value['fingerprint'] }}
 {% endfor %}
 
 git_ssh_config:
     file.managed:
-        - name: /home/vagrant/.ssh/config
+        - name: "/home/{{ pillar['system']['user'] }}/.ssh/config"
         - contents: |
             {% for key, value in salt['pillar.get']('git:ssh', {}).iteritems() %}
             Host {{ key }}
             HostName {{ key }}
             Port 22
             User git
-            IdentityFile /home/vagrant/.ssh/id_rsa_{{ key }}
+            IdentityFile "/home/{{ pillar['system']['user'] }}/.ssh/id_rsa_{{ key }}"
             {% endfor %}
-        - user: vagrant
-        - group: staff
+        - user: "{{ pillar['system']['user'] }}"
+        - group: "{{ pillar['system']['group'] }}"
         - model: 600
         - require:
             {% for key, value in salt['pillar.get']('git:ssh', {}).iteritems() %}
