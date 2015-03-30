@@ -40,9 +40,4 @@ git_ssh_config:
             {% endfor %}
         - user: "{{ pillar['system']['user'] }}"
         - group: "{{ pillar['system']['group'] }}"
-        - model: 600
-        - require:
-            {% for key, value in salt['pillar.get']('git:ssh', {}).iteritems() %}
-            - file: git_id_rsa_{{ key }}
-            - ssh_known_hosts: git_server_fingerprint_{{ key }}
-            {% endfor %}
+        - mode: 600
