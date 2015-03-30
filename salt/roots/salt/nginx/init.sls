@@ -1,3 +1,14 @@
+nginx_ppa:
+  pkgrepo.managed:
+    - humanname: Nginx PPA
+    - name: ppa:nginx/stable
+    - dist: trusty
+    - file: /etc/apt/sources.list.d/nginx.list
+    - keyid: C300EE8C
+    - keyserver: keyserver.ubuntu.com
+    - require_in:
+        - pkg: nginx
+
 nginx:
     pkg.installed: []
     service.running:
