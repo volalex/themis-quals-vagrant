@@ -1,4 +1,3 @@
-{% if salt['pillar.get']('themis:iptables_required', True) %}
 iptables-persistent:
     pkg.installed: []
 
@@ -28,6 +27,7 @@ flush_filter_table_rules:
             - iptables: forward_chain_policy
             - iptables: output_chain_policy
 
+{% if salt['pillar.get']('themis:iptables_required', True) %}
 accept_input_related_established:
     iptables.insert:
         - position: 1
