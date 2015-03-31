@@ -1,3 +1,4 @@
+{% if salt['pillar.get']('themis:iptables_required', True) %}
 iptables-persistent:
     pkg.installed: []
 
@@ -119,3 +120,4 @@ reject_input_with_icmp_host_prohibited:
         - save: True
         - require:
             - iptables: flush_filter_table_rules
+{% endif %}
